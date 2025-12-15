@@ -23,10 +23,10 @@ const moodSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-  // author: {
-  //   type: mongoose.Schema.Types.ObjectId,
-  //   ref: "User",
-  // },
+  author: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
 });
 
 const Mood = mongoose.model("Mood", moodSchema);
