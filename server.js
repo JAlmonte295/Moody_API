@@ -2,10 +2,14 @@ const dotenv = require("dotenv");
 dotenv.config();
 const express = require("express");
 const app = express();
-const mongoose = require("mongoose");
-const cors = require("cors");
-const logger = require("morgan");
+const mongoose = require('mongoose');
+const cors = require('cors');
+const logger = require('morgan');
+const testJwtRouter = require('./controllers/test-jwt');
+const authRouter = require('./controllers/auth');
+const usersRouter = require('./controllers/users');
 
+// Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI);
 
 mongoose.connection.on("connected", () => {
@@ -20,8 +24,14 @@ app.use(logger("dev"));
 // Routes go here
 const createController = require("./controllers/CreateController");
 
+
+// Routes
+app.use('/test-jwt', testJwtRouter);
+app.use('/auth', authRouter);
+app.use('/users', usersRouter);
 app.use("/moods", createController);
 
+// Start the server
 app.listen(3000, () => {
   console.log("The express app is ready!");
 });
