@@ -6,21 +6,21 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const logger = require('morgan');
 const testJwtRouter = require('./controllers/test-jwt');
-
-app.use('/test-jwt', testJwtRouter);
-
-
+const authRouter = require('./controllers/auth');
 mongoose.connect(process.env.MONGODB_URI);
 
 mongoose.connection.on('connected', () => {
   console.log(`Connected to MongoDB ${mongoose.connection.name}.`);
 });
 
+// Middleware
 app.use(cors());
 app.use(express.json());
 app.use(logger('dev'));
 
-// Routes go here
+// Routes
+app.use('/test-jwt', testJwtRouter);
+app.use('/auth', authRouter);
 
 app.listen(3000, () => {
   console.log('The express app is ready!');
