@@ -7,6 +7,7 @@ const cors = require('cors');
 const logger = require('morgan');
 const testJwtRouter = require('./controllers/test-jwt');
 const authRouter = require('./controllers/auth');
+const moodsRouter = require('./controllers/moods.js');
 const usersRouter = require('./controllers/users');
 
 // Connect to MongoDB
@@ -21,15 +22,12 @@ app.use(cors());
 app.use(express.json());
 app.use(logger("dev"));
 
-// Routes go here
-const createController = require("./controllers/CreateController");
-
 
 // Routes
 app.use('/test-jwt', testJwtRouter);
 app.use('/auth', authRouter);
 app.use('/users', usersRouter);
-app.use("/moods", createController);
+app.use('/moods', moodsRouter);
 
 // Start the server
 app.listen(3000, () => {
