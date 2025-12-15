@@ -3,6 +3,7 @@ const Mood = require("../models/Mood");
 const router = express.Router();
 const { isAuthenticated } = require("../middleware/auth");
 
+
 // All routes in this file are protected and require a valid token
 router.use(isAuthenticated);
 
@@ -26,5 +27,32 @@ router.post("/", async (req, res) => {
     res.status(500).json({ error: "Failed to create mood entry." });
   }
 });
+
+router.put("/:moodId", async (req,res) => {
+  try {
+    const mood = await Mood.findById(req.params.moodId);
+
+
+    if (!mood) {
+      return res.status(404).json({error: "Mood not found"});
+    }
+
+    if (!mood.author.equals(req.user._id)) {
+      return res.status(403).json({error: "you are not allowed to do that"})
+    }
+
+    const updatedMood = await Mood.findByIdAndUpdate(
+      req.params.moodId,
+      req.body,
+      {new: true}
+    )
+
+    updatedMood._doc.author = req.user
+
+    res.status(200).json(updatedMood)
+  } catch (error) {
+    res.status(500).json({error: error.message})
+  }
+})
 
 module.exports = router;
