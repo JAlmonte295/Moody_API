@@ -1,29 +1,16 @@
 const express = require('express');
 const router = express.Router();
+const { isAuthenticated } = require('../middleware/auth');
 
-const jwt = require('jsonwebtoken');
+// This file is for testing authentication and protected routes.
 
-
-router.get('/sign-token', (req, res) => {
-  const user = {
-    id: 1,
-    username: 'test',
-    password: 'test',
-  };
-  const token = jwt.sign({ user }, process.env.JWT_SECRET);
-
-  res.json({ token });
-});
-
-router.post('/verify-token', (req, res) => {
-  try {
-    const token = req.headers.authorization.split(' ')[1];
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
-    res.json({ decoded });
-  } catch (err) {
-    res.status(401).json({ err: 'Invalid token.' });
-  }
+// GET /test-jwt/protected
+// A simple protected route to test if a token is valid.
+router.get('/protected', isAuthenticated, (req, res) => {
+  // If the request reaches this point, the isAuthenticated middleware has
+  // successfully verified the token. We can send back a success message
+  // and the user data that the middleware attached to the request.
+  res.json({ message: 'Token is valid.', user: req.user });
 });
 
 module.exports = router;
