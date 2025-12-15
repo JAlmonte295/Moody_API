@@ -23,11 +23,13 @@ app.use(express.json());
 app.use(logger("dev"));
 
 
+
 // Routes
 app.use('/test-jwt', testJwtRouter);
 app.use('/auth', authRouter);
 app.use('/users', usersRouter);
 app.use('/moods', moodsRouter);
+
 
 // Start the server
 app.listen(3000, () => {
