@@ -28,10 +28,6 @@ router.get('/me', isAuthenticated, async (req, res) => {
 
 router.get('/:userId', isAuthenticated, async (req, res) => {
   try {
-    if (req.user._id !== req.params.userId){
-      return res.status(403).json({ err: "Unauthorized"});
-    }
-
     const user = await User.findById(req.params.userId, '-hashedPassword');
 
     if (!user) {
