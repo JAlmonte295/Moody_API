@@ -39,7 +39,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-//GET /moods/:moodId - display a single mood log
+//GET /moods/:moodId - Mood Show Page diplay a single Mood
 router.get("/:moodId", async (req, res) => {
   try {
     const findOneMood = await Mood.findById(req.params.moodId).populate("author");
