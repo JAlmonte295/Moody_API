@@ -32,6 +32,7 @@ app.use('/moods', moodsRouter);
 
 
 // Start the server
-app.listen(3000, () => {
-  console.log("The express app is ready!");
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+  console.log(`The express app is ready on port ${port}!`);
 });

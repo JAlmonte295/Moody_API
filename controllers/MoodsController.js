@@ -34,7 +34,7 @@ router.get("/:moodId", async (req, res) => {
 
 
 router.post("/", async (req, res) => {
-  try {
+  try {``
     const newMood = await Mood.create({
       ...req.body,
       author: req.user._id, 
